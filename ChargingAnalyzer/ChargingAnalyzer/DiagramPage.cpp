@@ -11,9 +11,9 @@
 
 //IMPLEMENT_DYNAMIC(CDiagramPage, CDialog)
 
-CDiagramPage::CDiagramPage(std::vector<std::vector<CString>> data) : CDialogEx(CDiagramPage::IDD)
+CDiagramPage::CDiagramPage(charDataAnalyzer d_charDataAnalyzer) : CDialogEx(CDiagramPage::IDD)
 {
-	mData = data;
+	m_charDataAnalyzer = d_charDataAnalyzer;
 }
 
 CDiagramPage::~CDiagramPage()
@@ -27,22 +27,51 @@ void CDiagramPage::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDiagramPage, CDialogEx)
-	ON_BN_CLICKED(IDC_DRAW_DIAGRAM, &CDiagramPage::OnBnClickedDrawDiagram)
+	ON_BN_CLICKED(IDC_CHECK1, &CDiagramPage::OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &CDiagramPage::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CDiagramPage::OnBnClickedCheck3)
 END_MESSAGE_MAP()
 
-void CDiagramPage::OnBnClickedDrawDiagram()
+void CDiagramPage::OnBnClickedCheck1()
 {
-	CSeries lineSeries1 = (CSeries)m_data.Series(0);
-	lineSeries1.Clear();
-	for (int i = 0; i < mData[113].size(); i++)
-    {
-        lineSeries1.AddXY((double)i,  _wtof(mData[113][i])/(-1000000),NULL,NULL);
-    }
+	CSeries lineSeries = (CSeries)m_data.Series(0);
+	lineSeries.Clear();
+	int state =((CButton *)GetDlgItem(IDC_CHECK1))->GetCheck();
+	if(state)
+	{
+		for (int i = 0; i < (int)m_charDataAnalyzer.mCurrentNowData.size(); i++)
+		{
+			lineSeries.AddXY((double)i, m_charDataAnalyzer.mCurrentNowData[i],NULL,NULL);
+		}
+	}
+}
 
-	CSeries lineSeries2 = (CSeries)m_data.Series(1);
-	lineSeries2.Clear();
-	for (int i = 0; i < mData[113].size(); i++)
-    {
-        lineSeries2.AddXY((double)i,  _wtof(mData[106][i])/1000000,NULL,NULL);
-    }
+
+void CDiagramPage::OnBnClickedCheck2()
+{
+	CSeries lineSeries = (CSeries)m_data.Series(1);
+	lineSeries.Clear();
+	int state =((CButton *)GetDlgItem(IDC_CHECK2))->GetCheck();
+	if(state)
+	{
+		for (int i = 0; i < (int)m_charDataAnalyzer.mData[113].size(); i++)
+		{
+			lineSeries.AddXY((double)i,  m_charDataAnalyzer.mCurrentExpectData[i],NULL,NULL);
+		}
+	}
+}
+
+
+void CDiagramPage::OnBnClickedCheck3()
+{
+	CSeries lineSeries = (CSeries)m_data.Series(2);
+	lineSeries.Clear();
+	int state =((CButton *)GetDlgItem(IDC_CHECK3))->GetCheck();
+	if(state)
+	{
+		for (int i = 0; i < (int)m_charDataAnalyzer.mVoltageNowData.size(); i++)
+		{
+			lineSeries.AddXY((double)i, m_charDataAnalyzer.mVoltageNowData[i],NULL,NULL);
+		}
+	}
 }

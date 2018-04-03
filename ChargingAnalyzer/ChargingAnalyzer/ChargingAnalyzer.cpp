@@ -147,8 +147,6 @@ BOOL CChargingAnalyzerApp::InitInstance()
 	pMainFrame->UpdateWindow();
 
 	//≥ı ºªØ≥Ã–Ú
-	//load config
-	m_charAnaConfig = charAnaConfig();
 	return TRUE;
 }
 
@@ -233,7 +231,7 @@ void CChargingAnalyzerApp::OnFileOpen(){
 	m_charDataAnalyzer = charDataAnalyzer();
 	if(m_charDataAnalyzer.dataProcess(newName)==0)
 	{
-		MessageBox(NULL,L"Load file success !",L"success",MB_OK);
+		//MessageBox(NULL,L"Load file success !",L"success",MB_OK);
 	}
 	else
 	{
@@ -244,6 +242,6 @@ void CChargingAnalyzerApp::OnFileOpen(){
 
 void CChargingAnalyzerApp::OnShowDiagram()
 {
-	CDiagramPage CDiagramPageDlg(m_charDataAnalyzer.mData);
+	CDiagramPage CDiagramPageDlg(m_charDataAnalyzer);
 	CDiagramPageDlg.DoModal();
 }

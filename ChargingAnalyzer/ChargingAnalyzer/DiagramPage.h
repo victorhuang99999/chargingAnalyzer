@@ -8,7 +8,7 @@ class CDiagramPage : public CDialogEx
 	//DECLARE_DYNAMIC(CDiagramPage)
 
 public:
-	CDiagramPage(std::vector<std::vector<CString>> data);   // 标准构造函数
+	CDiagramPage(charDataAnalyzer d_charDataAnalyzer);   // 标准构造函数
 	virtual ~CDiagramPage();
 
 // 对话框数据
@@ -20,6 +20,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CTchart1 m_data;
-	std::vector<std::vector<CString>> mData;
-	afx_msg void OnBnClickedDrawDiagram();
+	charDataAnalyzer m_charDataAnalyzer;
+	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnBnClickedCheck2();
+	afx_msg void OnBnClickedCheck3();
 };

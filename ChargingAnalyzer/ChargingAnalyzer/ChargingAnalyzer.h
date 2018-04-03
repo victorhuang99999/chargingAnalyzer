@@ -8,7 +8,6 @@
 #endif
 
 #include "resource.h"       // Ö÷·ûºÅ
-#include "charAnaConfig.h"
 #include "charDataAnalyzer.h"
 #include "DiagramPage.h"
 
@@ -27,7 +26,6 @@ public:
 // ÊµÏÖ
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
-	charAnaConfig m_charAnaConfig;
 	charDataAnalyzer m_charDataAnalyzer;
 
 

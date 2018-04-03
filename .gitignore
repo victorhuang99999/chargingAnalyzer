@@ -1,0 +1,18 @@
+# My configurations:
+/ChargingAnalyzer/ipch
+/ChargingAnalyzer/ChargingAnalyzer/Debug
+/ChargingAnalyzer/ChargingAnalyzer/res
+*.sdf
+*.aps
+*.vcxproj
+*.user
+*.filters
+*.txt
+*.bmp
+*.opensdf
+*.sln
+*.suo
+*.exe
+*.manifest
+*.ilk
+*.pdb

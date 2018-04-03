@@ -1,21 +1,69 @@
 #pragma once
 #include <vector>
-#include "charAnaConfig.h"
+
+#define NODE_CONFIG_FILE_PATH "config/nodeConfig.csv"
+#define EXPECT_CONFIG_FILE_PATH "config/expectConfig.csv"
+
+#define MILLI 1000000
+#define CURRENT_MAX 4*MILLI
+
+#define NC_USB_ONLINE "usb_online"
+#define NC_USB_PRESENT "usb_present"
+#define NC_USB_REAL_TYPE "usb_real_type"
+#define NC_USB_INPUT_CURRENT_SETTLED "usb_input_current_settled"
+#define NC_USB_CURRENT_NOW "usb_current_now"
+#define NC_BATTERY_CHARGE_DONE "battery_charge_done"
+#define NC_BATTERY_THERMAL_CHARGE_CURRENT_MAX "battery_thermal_charge_current_max"
+#define NC_BATTERY_VOLTAGE_NOW "battery_voltage_now"
+#define NC_BATTERY_TEMP "battery_temp"
+#define NC_BATTERY_CURRENT_NOW "battery_current_now"
+#define NC_BATTERY_CHARGER_TEMP "battery_charger_temp"
+#define NC_BATTERY_CHARGE_TYPE "battery_charge_type"
+
+struct expectConfig{
+	int mode;
+	int referDataIndex;
+	CString equalValue;
+};
+
+enum{
+	ECC_LESS_THAN = 1,
+	ECC_EQUAL = 2,
+	ECC_GET_LESS = 3,
+};
+
+CString * SplitString(CString str, char split,int& iSubStrs);//分割源数据
+CString getFilePath(CString fileName);
+
 class charDataAnalyzer
 {
 public:
 	charDataAnalyzer(void);
 	~charDataAnalyzer(void);
 
-	int dataProcess(CString path);
-	float* getCurrentExpect();
-
-	std::vector<CString> mFileContent;
+	int dataProcess(CString path);//数据处理进程
+	
 	std::vector<std::vector<CString>> mData;
+	std::vector<float> mCurrentNowData;
+	std::vector<float> mCurrentExpectData;
+	std::vector<float> mVoltageNowData;
 
 private:
-	void dataAnalyze();
-	bool isData(CString);
-	CString * SplitString(CString str, char split);
-};
+	//配置相关
+	CString* m_nodeConfig;//文件节点配置
+	int m_data_count;//文件节点数量
+	int getNodeIndex(CString nodeName);//获得文件节点index
 
+	std::vector<expectConfig> expectConfigArray;//期望电流配置数组
+	float getCurrentExpectSingle(int index);//获得单个期望电流
+
+	std::vector<float> currentNowProcess();//电流数据进程
+	std::vector<float> voltageNowProcess();//电压数据进程
+	std::vector<float> currentExpectProcess();//期望电流数据进程
+
+	void clearData();//清空数据
+	bool isData(CString);//判断是否是数据
+
+	void readNodeConfigFromFile();
+	void readExpectCurrentConfigFromFile();
+};
