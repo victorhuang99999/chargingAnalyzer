@@ -20,6 +20,10 @@
 #define NC_BATTERY_CHARGER_TEMP "battery_charger_temp"
 #define NC_BATTERY_CHARGE_TYPE "battery_charge_type"
 
+#define PHONE_LOG_PATH "data/vendor/bslogs/battery"
+#define PHONE_LOG_NAME "Battery_Daemon_info.csv"
+#define CMD_COMMAND_COUNT_MAX 200
+
 struct expectConfig{
 	int mode;
 	int referDataIndex;
@@ -32,8 +36,15 @@ enum{
 	ECC_GET_LESS = 3,
 };
 
+enum{
+	LINE_TYPE_NONE = 0,
+	LINE_TYPE_DATA = 1,
+	LINE_TYPE_CONFIG = 2,
+};
+
 CString * SplitString(CString str, char split,int& iSubStrs);//分割源数据
 CString getFilePath(CString fileName);
+CString sendCMDCommand(CString cmd);//发送cmd命令
 
 class charDataAnalyzer
 {
@@ -42,6 +53,7 @@ public:
 	~charDataAnalyzer(void);
 
 	int dataProcess(CString path);//数据处理进程
+	int dataPhoneProcess();
 	
 	std::vector<std::vector<CString>> mData;
 	std::vector<float> mCurrentNowData;
@@ -62,8 +74,9 @@ private:
 	std::vector<float> currentExpectProcess();//期望电流数据进程
 
 	void clearData();//清空数据
-	bool isData(CString);//判断是否是数据
+	int getDataType(CString);//判断是否是数据
 
-	void readNodeConfigFromFile();
+	void readNodeConfigFromConfigFile();
+	void readNodeConfigFromLogFile(CString path);
 	void readExpectCurrentConfigFromFile();
 };

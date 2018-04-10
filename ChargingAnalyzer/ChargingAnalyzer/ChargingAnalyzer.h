@@ -38,6 +38,7 @@ public:
 
 
 	afx_msg void OnShowDiagram();
+	afx_msg void OnConnectPhone();
 };
 
 extern CChargingAnalyzerApp theApp;

@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CChargingAnalyzerApp, CWinAppEx)
 	// 标准打印设置命令
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
 	ON_COMMAND(ID_SHOW_DIAGRAM, &CChargingAnalyzerApp::OnShowDiagram)
+	ON_COMMAND(ID_CONNECT_PHONE, &CChargingAnalyzerApp::OnConnectPhone)
 END_MESSAGE_MAP()
 
 
@@ -235,7 +236,7 @@ void CChargingAnalyzerApp::OnFileOpen(){
 	}
 	else
 	{
-		MessageBox(NULL,L"Open file failed",L"error",MB_ICONERROR);
+		MessageBox(NULL,"Open file failed","error",MB_ICONERROR);
 	}
 
 }
@@ -244,4 +245,21 @@ void CChargingAnalyzerApp::OnShowDiagram()
 {
 	CDiagramPage CDiagramPageDlg(m_charDataAnalyzer);
 	CDiagramPageDlg.DoModal();
+}
+
+void CChargingAnalyzerApp::OnConnectPhone()
+{
+	m_charDataAnalyzer = charDataAnalyzer();
+	int result = m_charDataAnalyzer.dataPhoneProcess();
+	switch(result){
+	case 1:
+		MessageBox(NULL,"Open file failed","error",MB_ICONERROR);
+		break;
+	case 2:
+		MessageBox(NULL,"Connect phone error","error",MB_ICONERROR);
+		break;
+	default:
+		//MessageBox(NULL,L"Load file success !",L"success",MB_OK);
+		break;
+	}
 }
